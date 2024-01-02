@@ -1,0 +1,8 @@
+1. Save present Hamiltonian notebook as txt file
+2. Add vector potential of the unform magnetic field
+3. Get Larmor spiral
+4. Add electtric potential to Hamiltonian, observe increasing step of spiral
+5. start adding spiral potentials (as EXTERNAL packages)
+5.1. reproduce potentials (according to last Lazareva notice)
+5.2. Plot them in some way, 
+5.3. Compare to Python 

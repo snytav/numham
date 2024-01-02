@@ -1,0 +1,99 @@
+In[26]:= hamiltonianCylindrical[r_,phi_,z_,pr_,pPhi_,pz_,m_,a_,c_]:=1/(2 m) (pr^2+pPhi^2/r^2+pz^2)+c Sqrt[r^2/(4 a^2)+z^2/a^2]
+
+cylindricalTrajectory[r0_,phi0_,z0_,pr0_,pPhi0_,pz0_,m_,a_,c_,steps_]:=NDSolve[{r'[t]==D[hamiltonianCylindrical[r[t],phi[t],z[t],pr[t],pPhi[t],pz[t],m,a,c],pr[t]],phi'[t]==D[hamiltonianCylindrical[r[t],phi[t],z[t],pr[t],pPhi[t],pz[t],m,a,c],pPhi[t]],z'[t]==D[hamiltonianCylindrical[r[t],phi[t],z[t],pr[t],pPhi[t],pz[t],m,a,c],pz[t]],pr'[t]==-D[hamiltonianCylindrical[r[t],phi[t],z[t],pr[t],pPhi[t],pz[t],m,a,c],r[t]],pPhi'[t]==-D[hamiltonianCylindrical[r[t],phi[t],z[t],pr[t],pPhi[t],pz[t],m,a,c],phi[t]],pz'[t]==-D[hamiltonianCylindrical[r[t],phi[t],z[t],pr[t],pPhi[t],pz[t],m,a,c],z[t]],r[0]==r0,phi[0]==phi0,z[0]==z0,pr[0]==pr0,pPhi[0]==pPhi0,pz[0]==pz0},{r[t],phi[t],z[t],pr[t],pPhi[t],pz[t]},{t,0,steps},WorkingPrecision->20,MaxSteps->\[Infinity]]
+In[28]:= upt=500;ct=cylindricalTrajectory[1,0,2,1,0,1,1,1,1,upt];
+ct
+Out[29]= {{r[t]->InterpolatingFunction[Domain: {{0,500.00000000000000000}}
+Output: scalar
+
+
+Data not in notebook. Store now
+
+][t],phi[t]->InterpolatingFunction[Domain: {{0,500.00000000000000000}}
+Output: scalar
+
+
+Data not in notebook. Store now
+
+][t],z[t]->InterpolatingFunction[Domain: {{0,500.00000000000000000}}
+Output: scalar
+
+
+Data not in notebook. Store now
+
+][t],pr[t]->InterpolatingFunction[Domain: {{0,500.00000000000000000}}
+Output: scalar
+
+
+Data not in notebook. Store now
+
+][t],pPhi[t]->InterpolatingFunction[Domain: {{0,500.00000000000000000}}
+Output: scalar
+
+
+Data not in notebook. Store now
+
+][t],pz[t]->InterpolatingFunction[Domain: {{0,500.00000000000000000}}
+Output: scalar
+
+
+Data not in notebook. Store now
+
+][t]}}
+cylindricalTrajectory[1,0,2,1,0,1,1,1,1,500]
+In[30]:= r[t],phi[t],z[t]}/. ct
+traj=Flatten[#,1]&@Table[{r[t],phi[t],z[t]}/. ct,{t,0,upt,.1}];
+In[56]:= X[t_]=(r[t]/.ct)*Cos[phi[t]/.ct]
+Y[t_]=(r[t]/.ct)*Sin[phi[t]/.ct]
+Z[t_]=z[t]/.ct
+Out[56]= {Cos[InterpolatingFunction[Domain: {{0,500.00000000000000000}}
+Output: scalar
+
+
+Data not in notebook. Store now
+
+][t]] InterpolatingFunction[Domain: {{0,500.00000000000000000}}
+Output: scalar
+
+
+Data not in notebook. Store now
+
+][t]}
+Out[57]= {Sin[InterpolatingFunction[Domain: {{0,500.00000000000000000}}
+Output: scalar
+
+
+Data not in notebook. Store now
+
+][t]] InterpolatingFunction[Domain: {{0,500.00000000000000000}}
+Output: scalar
+
+
+Data not in notebook. Store now
+
+][t]}
+Out[58]= {InterpolatingFunction[Domain: {{0,500.00000000000000000}}
+Output: scalar
+
+
+Data not in notebook. Store now
+
+][t]}
+In[42]:= Plot[r[t]/.ct,{t,0,100}]
+Out[42]= 
+In[45]:= Plot[phi[t]/.ct,{t,0,100}]
+Out[45]= 
+In[44]:= Plot[z[t]/.ct,{t,0,100}]
+Out[44]= 
+In[53]:= ParametricPlot[Evaluate[{r[t],z[t]}/.ct],{t,0,100}]
+Out[53]= 
+In[62]:= ParametricPlot3D[Evaluate[{r[t]Cos[phi[t]],r[t] Sin[phi[t]],z[t]}/.ct],{t,0,100},AxesLabel->{X,Y,Z}]
+Out[62]= 
+trajcart={#[[1]]*Cos[#[[2]]],#[[1]]*Cos[#[[2]]],#[[3]]}&/@traj;Manipulate[Graphics3D[{Arrow[{{0,0,0},#}]&@trajcart[[i]],Point[trajcart[[1;;i]]]},PlotRange->{{-5,5},{-5,5},{-5,5}}],{i,1,Length@trajcart,1}]
+Out[30]= Manipulate[Graphics3D[{(Arrow[{{0, 0, 0}, #1}] & )[trajcart[[i]]], 
+    Point[trajcart[[1 ;; i]]]}, PlotRange -> {{-5, 5}, {-5, 5}, {-5, 5}}], 
+  {i, 1, 5001, 1}]
+During evaluation of In[1]:=
+Part::partd: Part specification trajcart[[1]] is longer than depth of object.
+During evaluation of In[1]:=
+Part::take: Cannot take positions 1 through 1 in trajcart.
